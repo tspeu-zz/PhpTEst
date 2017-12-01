@@ -92,7 +92,7 @@
 <div class="container">
  <?php
  include_once('./crud/playa.php');
-
+ include_once('./crud/db.php');
     if (!isset($error) && isset($idSelect)) {
     $sql = <<<SQL
     SELECT playas.idPlaya,idMun,nombre,descripcion,direccion,playaSize,longitud,latitud,imagen
@@ -112,39 +112,57 @@ SQL;
             // echo '<table class="table">';
             // echo '<br><tr><th>Elegir un nombre para obtener la descripcion </th>
             // </tr></br>';
-            echo  "<div class='list-group list-group-item-info'>";    
+            echo  "<div class='list-group list-group-item-info'>";   
+            $listaPlayas[] = new Playa($linea); 
         while ($linea != null) {
-
-            $listaPlayas[] = new Playa($linea);
-                
-            $idPlaya=$linea['idPlaya'];
-            $idMun=$linea['idMun'];
-            $nombre=$linea['nombre'];
-            $direccion=$linea['direccion'];
-            $descripcion=$linea['descripcion'];
-            $playaSize=$linea['playaSize'];
-            $longitud=$linea['longitud'];
-            $latitud=$linea['latitud'];
-            $imagen=$linea['imagen'];
-
+            
+         
+            // $array = array(
+            //     "foo" => "bar",
+            //     "bar" => "foo",
+            // );
+            // $listaPlayas
+            $listaPlayas=array( 
+                    $idPlaya=$linea['idPlaya'],
+                    $idMun=$linea['idMun'],
+                    $nombre=$linea['nombre'],
+                    $direccion=$linea['direccion'],
+                    $descripcion=$linea['descripcion'],
+                    $playaSize=$linea['playaSize'],
+                    $longitud=$linea['longitud'],
+                    $latitud=$linea['latitud'],
+                    $imagen=$linea['imagen']);
+                // $idPlaya=$linea['idPlaya'];
+                // $idMun=$linea['idMun'];
+                // $nombre=$linea['nombre'];
+                // $direccion=$linea['direccion'];
+                // $descripcion=$linea['descripcion'];
+                // $playaSize=$linea['playaSize'];
+                // $longitud=$linea['longitud'];
+                // $latitud=$linea['latitud'];
+                // $imagen=$linea['imagen'];
+            
             // foreach ($listaPlayas as $p) {
                 // $p->getIdPlaya();
                 // $p->getNombrePlaya();
                 // $idPlaya->getIdPlaya();
                 // $nombre->;
+            // foreach($listaPlayas as $pl){
+            //     $pl->muestraIdPlaya();
+            // }
 
             echo 
-            "<input type='hidden' name='idEdit' value='$idPlaya'/>";
-            // <input type='hidden' name='idEdit' value='$p->getIdPlaya()'/>;
+            "<input type='hidden' name='idPlaya' value='.$idPlaya.'/>";
+            // "<input type='hidden' name='idEdit' value='$p->getIdPlaya()'/>";
             echo
-            "<button type='submit' aria-label='Right Align' class='list-group-item' 
-            value='nombre' name='nombre'>$nombre";
             // "<button type='submit' aria-label='Right Align' class='list-group-item' 
-            // value='nombre' name='nombre'>$p->getNombrePlaya()";
+            // value='nombre' name='nombre'>$nombre";
+                "<button type='submit' aria-label='Right Align' class='list-group-item' 
+                value='nombre' name='nombre'>$nombre";
             echo    
             "</button>
-            <button class='btn btn-info' type='submit' value='idEdit' 
-            name='idEdit'>Select</button>";  
+            <button class='btn btn-info' type='submit' value='idPlaya' 
+            name='idPlaya'>Select</button>";  
             // "</button>
             // <button class='btn btn-info' type='submit' value='idEdit' 
             // name='idEdit'>Select</button>";  

@@ -25,30 +25,30 @@ function selectMunicipioNombre(){
     // echo "<input type='hidden' name='id' id='id' value='".$p->getcodigoMunicipio()."'/>";
                 echo "<option value='".$p->getcodigoMunicipio()."'>";
                 echo  htmlentities($p->getnombreMunicipio());
-                $idSelect=$p->getnombreMunicipio();
+                // $idSelect=$p->getnombreMunicipio();
         // echo "<input type='hidden' name='numAle' id='numAle' value='" . $_SESSION['codigoAleatorio'] . "'/>";
         // echo "<input type='submit' name='enviar' class='boton' value='Añadir'/>";
         // echo $p->getnombrecorto() . ": ";
         // echo $p->getPVP() . " euros.";
         // echo "</form>";
         // echo "</p>";
-        $cosa=$p->getcodigoMunicipio();
+        // $cosa=$p->getcodigoMunicipio();
         
         }  
     echo    "</select></div><div class='col-md-4'>";
 
-    echo    "<input type='text' name='id' id='id' value='".$cosa."'/>";
+    // echo    "<input type='text' name='id' id='id' value='".$cosa."'/>";
 
     echo    "<button class='btn btn-success' type='submit' name='enviar' 
             style='width: 50% !important;padding: 5% !important;'>enviar</button>
             </div></div>"; 
 
-    echo "<input type='text' name='id' id='id' value='".$idSelect."'/></div>";
+    // echo "<input type='text' name='id' id='id' value='".$idSelect."'/></div>";
 
 }
 
 function selecPlayasPorMunicipio(){
-    if (isset($_POST['id'])) $idSelect = $_POST['id'];
+    if (isset($_POST['idPlaya'])) $idPlaya = $_POST['idPlaya'];
     $playasSel = DB::obtienePlayasMunicipio();
     foreach ($playasSel as $pl) {
         echo 
@@ -80,12 +80,9 @@ function selecPlayasPorMunicipio(){
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-        
-        
+        <link rel="stylesheet" type="text/css" href="css/style.css">  
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-
         <link type="image/x-icon" href="img/ghost.png" rel="shortcut icon" />
 
     </head>
@@ -95,7 +92,7 @@ function selecPlayasPorMunicipio(){
     <div class="container container-fluid">
          <h1 id="encabezado">TEST 5 TAREA8: Listado de MUNICIPIOS</h1>
         <div> 
-        <form id="id" name="id" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">                   
+        <form id="formMuni" name="formMuni" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">                   
             <?php selectMunicipioNombre(); ?>
         </form>
         </div>
@@ -108,7 +105,7 @@ function selecPlayasPorMunicipio(){
             <div class="panel panel-default">
             <div class="panel-heading">PLAYAS</div>
             <div class='list-group list-group-item-info'>
-
+            <?php echo $idSelect; ?>cosa
     <!-- aki -->
 
 

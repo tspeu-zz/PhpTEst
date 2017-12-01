@@ -31,7 +31,7 @@
 	<?php
 include_once('./crud/playa.php');
 // include_once("./crud/conexion.php");
-		if (isset($_POST['idEdit'])) $editPro = $_POST['idEdit'];
+		if (isset($_POST['idPlaya'])) $editPro = $_POST['idPlaya'];
 			try {
 				$opciones =array(PDO::MYSQL_ATTR_INIT_COMMAND=>"SET NAMES utf8");
 				$dwes = new PDO("mysql:host=localhost;dbname=playasdb", "dwes", "abc123.",$opciones);
