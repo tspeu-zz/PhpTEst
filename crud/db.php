@@ -32,12 +32,42 @@ class DB {
         return $municipios;
     } 
 
-    public static function getPlayasMunicipio($idMuni, $contrasena) {
+    // public static function obtieneNombreMunicipios() {
+    //     $sql = "SELECT * FROM municipio;";
+    //     $resultado = self::conectar ($sql);
+    //     $municipios = array();
 
-        
+    //     if($resultado) {     
+    //         $row = $resultado->fetch();
+    //         while ($row != null) {
+    //             $municipios[] = new Municipio($row);
+    //             $row = $resultado->fetch();
+    //         }
+    //     }   
+    //     return $municipios;
+    // } 
+
+
+    public static function obtienePlayasMunicipio() {  
+
         $sql =  "SELECT idPlaya, idMun, nombre FROM playas 
                 INNER JOIN municipio ON municipio.idMunicipio = playas.idMun
                 WHERE playas.idMun='$idMuni'";
+
+        $res = self::conectar ($sql);
+        // $verificado = false;
+// isset($res)
+        if($res) {
+            $fila = $res->fetch();
+            // if($fila !== false) $verificado=true;
+            while ($fila != null) {
+                $playasSel[] = new playa($fila);
+                $fila = $resultado->fetch();
+            }
+        }
+        return $playasSel;
+    }
+
 
 // $sql .= "WHERE usuario='$nombre' ";
 /*
@@ -45,17 +75,7 @@ class DB {
 ,municipio.nombreMun
 FROM playas inner JOIN municipio ON municipio.idMunicipio = playas.idMun WHERE playas.idMun
     */
-        $res = self::conectar ($sql);
-        // $verificado = false;
 
-        if(isset($res)) {
-            $fila = $res->fetch();
-            // if($fila !== false) $verificado=true;
-            $playasSel[] = new playa($fila);
-            $fila = $resultado->fetch();
-        }
-        return $playasSel;
-    }
 
     //SELECT
   /*   public static function Sel() {

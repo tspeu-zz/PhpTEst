@@ -117,40 +117,40 @@ SQL;
 
             $listaPlayas[] = new Playa($linea);
                 
-            // $idPlaya=$linea['idPlaya'];
-            // $idMun=$linea['idMun'];
-            // $nombre=$linea['nombre'];
-            // $direccion=$linea['direccion'];
-            // $descripcion=$linea['descripcion'];
-            // $playaSize=$linea['playaSize'];
-            // $longitud=$linea['longitud'];
-            // $latitud=$linea['latitud'];
-            // $imagen=$linea['imagen'];
-            
-            foreach ($listaPlayas as $p) {
+            $idPlaya=$linea['idPlaya'];
+            $idMun=$linea['idMun'];
+            $nombre=$linea['nombre'];
+            $direccion=$linea['direccion'];
+            $descripcion=$linea['descripcion'];
+            $playaSize=$linea['playaSize'];
+            $longitud=$linea['longitud'];
+            $latitud=$linea['latitud'];
+            $imagen=$linea['imagen'];
+
+            // foreach ($listaPlayas as $p) {
                 // $p->getIdPlaya();
                 // $p->getNombrePlaya();
                 // $idPlaya->getIdPlaya();
                 // $nombre->;
 
             echo 
-            // "<input type='hidden' name='idEdit' value='$idPlaya'/>
-            "<input type='hidden' name='idEdit' value='$p->getIdPlaya()'/>";
+            "<input type='hidden' name='idEdit' value='$idPlaya'/>";
+            // <input type='hidden' name='idEdit' value='$p->getIdPlaya()'/>;
             echo
-            // <button type='submit' aria-label='Right Align' class='list-group-item' 
-            // value='nombre' name='nombre'>$nombre
             "<button type='submit' aria-label='Right Align' class='list-group-item' 
-            value='nombre' name='nombre'>$p->getNombrePlaya()";
+            value='nombre' name='nombre'>$nombre";
+            // "<button type='submit' aria-label='Right Align' class='list-group-item' 
+            // value='nombre' name='nombre'>$p->getNombrePlaya()";
             echo    
-            // "</button>
-            // <button class='btn btn-info' type='submit' value='idEdit' 
-            // name='idEdit'>Select</button>";  
             "</button>
             <button class='btn btn-info' type='submit' value='idEdit' 
             name='idEdit'>Select</button>";  
+            // "</button>
+            // <button class='btn btn-info' type='submit' value='idEdit' 
+            // name='idEdit'>Select</button>";  
 
             // <span class='badge'>$idPlaya</span>
-            }
+            // }
             $linea = $resultado->fetch();
             
         

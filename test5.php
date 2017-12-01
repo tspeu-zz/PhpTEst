@@ -3,7 +3,7 @@
 include_once("./crud/db.php");
 // require_once("crud/Crud.php");
 
-function creaFormularioProductos(){
+function selectMunicipioNombre(){
     if (isset($_POST['id'])) $idSelect = $_POST['id'];
     $municipios = DB::obtieneMunicipios();
 
@@ -21,26 +21,52 @@ function creaFormularioProductos(){
                     font-size: 18px;text-align: center !important;
                     background-color: #EEEEEE;'>";
     foreach ($municipios as $p) {
-            // echo "<input type='hidden' name='cod' id='cod' value='. $p->getcodigoMunicipio().'/>";
-            // echo     "<option value='${value['".$p->getcodigoMunicipio()."']}'>";
-            
-            // echo htmlentities($value['.$p->getnombreMunicipio().'])."</option>"; 
-            
-    // echo "<input type='hidden' name='cod' id='cod' value='" . $p->getcodigo() . "'/>";
+
+    // echo "<input type='hidden' name='id' id='id' value='".$p->getcodigoMunicipio()."'/>";
                 echo "<option value='".$p->getcodigoMunicipio()."'>";
                 echo  htmlentities($p->getnombreMunicipio());
+                $idSelect=$p->getnombreMunicipio();
         // echo "<input type='hidden' name='numAle' id='numAle' value='" . $_SESSION['codigoAleatorio'] . "'/>";
         // echo "<input type='submit' name='enviar' class='boton' value='Añadir'/>";
         // echo $p->getnombrecorto() . ": ";
         // echo $p->getPVP() . " euros.";
         // echo "</form>";
         // echo "</p>";
+        $cosa=$p->getcodigoMunicipio();
+        
         }  
-    echo    "</select></div><div class='col-md-4'>
-            <button class='btn btn-success' type='submit' name='enviar' 
+    echo    "</select></div><div class='col-md-4'>";
+
+    echo    "<input type='text' name='id' id='id' value='".$cosa."'/>";
+
+    echo    "<button class='btn btn-success' type='submit' name='enviar' 
             style='width: 50% !important;padding: 5% !important;'>enviar</button>
-            </div></div></div>";      
+            </div></div>"; 
+
+    echo "<input type='text' name='id' id='id' value='".$idSelect."'/></div>";
+
 }
+
+function selecPlayasPorMunicipio(){
+    if (isset($_POST['id'])) $idSelect = $_POST['id'];
+    $playasSel = DB::obtienePlayasMunicipio();
+    foreach ($playasSel as $pl) {
+        echo 
+        "<input type='hidden' name='idEdit' value='$pl->getIdPlaya()'/>";
+        // <input type='hidden' name='idEdit' value='$p->getIdPlaya()'/>;
+        echo
+        "<button type='submit' aria-label='Right Align' class='list-group-item' 
+        value='nombre' name='nombrePlaya'>$pl->getNombrePlaya()";
+        // "<button type='submit' aria-label='Right Align' class='list-group-item' 
+        // value='nombre' name='nombre'>$p->getNombrePlaya()";
+        echo    
+        "</button>
+        <button class='btn btn-info' type='submit' value='idEdit' 
+        name='idEdit'>Select</button>"; 
+
+    }
+}
+
 
 
 
@@ -50,7 +76,7 @@ function creaFormularioProductos(){
 
     <head>
         <meta charset="UTF-8">
-        <title>TEST </title>
+        <title>TEST 5</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -67,20 +93,29 @@ function creaFormularioProductos(){
     <body>
 
     <div class="container container-fluid">
-         <h1 id="encabezado">Tarea 3: Listado de playas</h1>
+         <h1 id="encabezado">TEST 5 TAREA8: Listado de MUNICIPIOS</h1>
         <div> 
-        <form id="form" name="formulario" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">                   
-            <?php creaFormularioProductos(); ?>
+        <form id="id" name="id" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">                   
+            <?php selectMunicipioNombre(); ?>
         </form>
         </div>
     </div> 
     <br>
 
     <!-- <input type="submit" value="Grabar" name="enviar"> <br> -->
-     
-      
-    
+    <div class="container">
+        <form id="lista" name="lista" action="editar.php" method="post"> 
+            <div class="panel panel-default">
+            <div class="panel-heading">PLAYAS</div>
+            <div class='list-group list-group-item-info'>
 
+    <!-- aki -->
+
+
+            </div>
+            </div>
+        </form> 
+    </div>
 
 
     <br>
