@@ -23,15 +23,16 @@
                     <li class='active'>
                         <a href='#'>  DWES-UT8 JM_B  <span class='sr-only'>(current)</span></a>
                     </li>
-                    <li><a href='#'>DETALLE DE PLAYAS DESDE dB MYSQL</a>
-                    </li>
+                    <li><a href='#'>DETALLE DE PLAYAS DESDE dB MYSQL</a></li>
+					<li><a href='altaplaya.php'>ALTA PLAYA DESDE dB MYSQL</a></li>
                 </ul>
             </div>
     </nav>
 	<?php
 include_once('./crud/playa.php');
 // include_once("./crud/conexion.php");
-		if (isset($_POST['idPlaya'])) $editPro = $_POST['idPlaya'];
+// $detallePlaya = $_POST['idPlaya'];
+		if (isset($_POST['idPlaya'])) $detallePlaya = $_POST['idPlaya'];
 			try {
 				$opciones =array(PDO::MYSQL_ATTR_INIT_COMMAND=>"SET NAMES utf8");
 				$dwes = new PDO("mysql:host=localhost;dbname=playasdb", "dwes", "abc123.",$opciones);
@@ -47,14 +48,14 @@ include_once('./crud/playa.php');
 	
 	<?php
 		
-		if (!isset($error) && isset($editPro)) {
+		if (!isset($error) && isset($detallePlaya)) {
 
 			$sql = <<<SQL
 				SELECT  idPlaya,idMun,nombre,descripcion,direccion,playaSize,longitud,
 								latitud,imagen,municipio.nombreMun
 				FROM playas
 				inner join municipio on municipio.idMunicipio = playas.idMun 
-				WHERE playas.idPlaya='$editPro'
+				WHERE playas.idPlaya='$detallePlaya'
 SQL;
 /*select `idPlaya`,`idMun`,`nombre`,`descripcion`,`direccion`,`playaSize`,`longitud`,
 `latitud`,`imagen`,municipio.nombreMun 
@@ -90,10 +91,12 @@ where idPlaya = 1178 */
                 $descripcion=$row['descripcion'];
 								$playaSize=$row['playaSize'];
 								
-                $longitud=$row['longitud'];
-                $latitud=$row['latitud'];
-								$imagen=$row['imagen'];
-								$nombreMun=$row['nombreMun'];
+				$longitud=$row['longitud'];
+			
+				$latitud=$row['latitud'];
+				
+				$imagen=$row['imagen'];
+				$nombreMun=$row['nombreMun'];
 
 				echo"	<div id='contenido' class='container container-fluid'>
 				<h2>PLAYA SELECCIONADA: $nombre</h2>";
@@ -114,7 +117,7 @@ where idPlaya = 1178 */
 						 <p><h4>Direccion:<span class="label label-default">' .$direccion. '</span></h4></p> 
 						 <p>Tamaño:<span class="label label-default">' .$playaSize.' </span></p> 
 							<textarea name="descripcion" rows="10" cols="60" >'.$descripcion.'</textarea>
-							<p><a href="test3.php" class="btn btn-primary" role="button" type="submit">Atras</a> 
+							<p><a href="test4.php" class="btn btn-primary" role="button" type="submit">Atras</a> 
 							</p>
 						</div>
 				  </div>
@@ -148,6 +151,12 @@ where idPlaya = 1178 */
 			 function initMap() {
         // Create a map object and specify the DOM element for display.
 				var pos = {lat: <?php echo $longitud; ?>, lng: <?php echo $latitud; ?>};
+				if(pos.lng == 0){
+					pos.lng= -16.8417604;
+				}	
+				if(pos.lat == 0){
+					pos.lat =28.2605817;
+				}
 				// var nombrePlaya =;
         var map = new google.maps.Map(document.getElementById('map'), {
           center: pos,

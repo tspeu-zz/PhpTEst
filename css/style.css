@@ -26,6 +26,11 @@
     padding: 5%;
 }
 
+.err {
+    color: red;
+    background: deeppink;
+}
+
 .parraf {
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 14px;

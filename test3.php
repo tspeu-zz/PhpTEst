@@ -60,12 +60,12 @@
                         background-color: #EEEEEE;">
                     <?php 
                     // $sql = "SELECT * FROM familia";
-                    $sql= "SELECT * FROM municipio";
+                    $sql= "SELECT idMunicipio,nombreMun FROM municipio";
                     $res = $dwes->query($sql);
                         if($res){
                             $value = $res->fetch();
                             while ($value != null) {
-                                echo "<option value='${value['idMunicipio']}'>";
+                                echo "<option value='${value['idMunicipio']}' name='idSelect'>";
                                 // if (isset($idSelect) && $idSelect == $value['idMunicipio']){
                                     // echo " selected='true'";  
                                 // }
@@ -89,58 +89,116 @@
 </div>
         
 
-<div class="container">
+
  <?php
  include_once('./crud/playa.php');
  include_once('./crud/db.php');
-    if (!isset($error) && isset($idSelect)) {
-    $sql = <<<SQL
-    SELECT playas.idPlaya,idMun,nombre,descripcion,direccion,playaSize,longitud,latitud,imagen
-    FROM playas INNER JOIN municipio ON municipio.idMunicipio = playas.idMun
-    WHERE playas.idMun='$idSelect'
-SQL;
 
-    $resultado = $dwes->query($sql);
+    function selectPlayas($idSelect){
+        if (isset($_POST['enviar'])) 
+            $idSelect = $_POST['id'];
+        try {
+            $opciones =array(PDO::MYSQL_ATTR_INIT_COMMAND=>"SET NAMES utf8");
+            $dwes = new PDO("mysql:host=localhost;dbname=playasdb", "dwes", "abc123.", $opciones);
+            $dwes->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }catch (PDOException $e) {
+            $error = $e->getCode();
+            $mensaje = $e->getMessage();
+        }
 
-    $listaPlayas = array();
+        
+        if (!isset($error) && isset($idSelect)) {
+//         $sql = <<<SQL
+//         SELECT playas.idPlaya,idMun,nombre,descripcion,direccion,playaSize,longitud,latitud,imagen
+//         FROM playas INNER JOIN municipio ON municipio.idMunicipio = playas.idMun
+//         WHERE playas.idMun='$este'
+// SQL;
+        $sql = "SELECT playas.idPlaya,idMun,nombre,descripcion,direccion,playaSize,longitud,latitud,imagen
+                FROM playas INNER JOIN municipio ON municipio.idMunicipio = playas.idMun
+                WHERE playas.idMun= $idSelect";
 
-    if($resultado) {
-        $linea = $resultado->fetch();
-            echo '<form id="form"  action="editar.php" method="post"> 
-            <div class="panel panel-default">
-            <div class="panel-heading">PLAYAS</div>';
-            // echo '<table class="table">';
-            // echo '<br><tr><th>Elegir un nombre para obtener la descripcion </th>
-            // </tr></br>';
-            echo  "<div class='list-group list-group-item-info'>";   
-            $listaPlayas[] = new Playa($linea); 
-        while ($linea != null) {
+        $resultado = $dwes->query($sql);
+
+        $listaPlayas = array();
+        // $playaDb =  new playa($fila);
+        $index=0;
+            if($resultado) {
+                $linea = $resultado->fetch();
+                    while ($linea != null) {
+                        $listaPlayas[$index]=new playa($linea);
+                       
+
+                        foreach($listaPlayas as $pl){
+                            echo 
+                            "<input type='hidden' name='idPlaya' value='$pl->getIdPlaya()'/>";
+                            // "<input type='hidden' name='idEdit' value='$p->getIdPlaya()'/>";
+                            echo
+                            // "<button type='submit' aria-label='Right Align' class='list-group-item' 
+                            // value='nombre' name='nombre'>$nombre";
+                                "<button type='submit' aria-label='Right Align' class='list-group-item' 
+                                value='nombre' name='nombrePlaya'> htmlentities($pl->getNombrePlaya())</button>";
+                            echo    
+                            "<button class='btn btn-info' type='submit' name='enviar' value='$pl->getIdPlaya()'  
+                            name='playaId'>Select</button>"; 
+                        }
+                        $linea = $resultado->fetch();
+                        $index++;
+                    }  
+                    
+
+            }
+            // return $listaPlayas;
+             
+    
+
+        }
+    }
+
+    function devuelveListaPlayas(){
+        
+        // $listadoPlayas = selectPlayas();
+            // foreach($listadoPlayas as $pl){
             
-         
-            // $array = array(
-            //     "foo" => "bar",
-            //     "bar" => "foo",
-            // );
+           
+            // echo 
+            // "<input type='hidden' name='idPlaya' value='$pl->getIdPlaya()'/>";
+            // // "<input type='hidden' name='idEdit' value='$p->getIdPlaya()'/>";
+            // echo
+            // // "<button type='submit' aria-label='Right Align' class='list-group-item' 
+            // // value='nombre' name='nombre'>$nombre";
+            //     "<button type='submit' aria-label='Right Align' class='list-group-item' 
+            //     value='nombre' name='nombrePlaya'> htmlentities($pl->getNombrePlaya())</button>";
+            // echo    
+            // "<button class='btn btn-info' type='submit'  
+            // name='playaId'>Select</button>"; 
+            // }
+
+       
+
+    }
+        
+/*
+
             // $listaPlayas
-            $listaPlayas=array( 
-                    $idPlaya=$linea['idPlaya'],
-                    $idMun=$linea['idMun'],
-                    $nombre=$linea['nombre'],
-                    $direccion=$linea['direccion'],
-                    $descripcion=$linea['descripcion'],
-                    $playaSize=$linea['playaSize'],
-                    $longitud=$linea['longitud'],
-                    $latitud=$linea['latitud'],
-                    $imagen=$linea['imagen']);
-                // $idPlaya=$linea['idPlaya'];
-                // $idMun=$linea['idMun'];
-                // $nombre=$linea['nombre'];
-                // $direccion=$linea['direccion'];
-                // $descripcion=$linea['descripcion'];
-                // $playaSize=$linea['playaSize'];
-                // $longitud=$linea['longitud'];
-                // $latitud=$linea['latitud'];
-                // $imagen=$linea['imagen'];
+            // $listaPlayas=array( 
+            //         $idPlaya=$linea['idPlaya'],
+            //         $idMun=$linea['idMun'],
+            //         $nombre=$linea['nombre'],
+            //         $direccion=$linea['direccion'],
+            //         $descripcion=$linea['descripcion'],
+            //         $playaSize=$linea['playaSize'],
+            //         $longitud=$linea['longitud'],
+            //         $latitud=$linea['latitud'],
+            //         $imagen=$linea['imagen']);
+                $idPlaya=$linea['idPlaya'];
+                $idMun=$linea['idMun'];
+                $nombre=$linea['nombre'];
+                $direccion=$linea['direccion'];
+                $descripcion=$linea['descripcion'];
+                $playaSize=$linea['playaSize'];
+                $longitud=$linea['longitud'];
+                $latitud=$linea['latitud'];
+                $imagen=$linea['imagen'];
             
             // foreach ($listaPlayas as $p) {
                 // $p->getIdPlaya();
@@ -151,35 +209,44 @@ SQL;
             //     $pl->muestraIdPlaya();
             // }
 
-            echo 
-            "<input type='hidden' name='idPlaya' value='.$idPlaya.'/>";
-            // "<input type='hidden' name='idEdit' value='$p->getIdPlaya()'/>";
-            echo
-            // "<button type='submit' aria-label='Right Align' class='list-group-item' 
-            // value='nombre' name='nombre'>$nombre";
-                "<button type='submit' aria-label='Right Align' class='list-group-item' 
-                value='nombre' name='nombre'>$nombre";
-            echo    
-            "</button>
-            <button class='btn btn-info' type='submit' value='idPlaya' 
-            name='idPlaya'>Select</button>";  
-            // "</button>
-            // <button class='btn btn-info' type='submit' value='idEdit' 
-            // name='idEdit'>Select</button>";  
+           
+
 
             // <span class='badge'>$idPlaya</span>
             // }
-            $linea = $resultado->fetch();
-            
-        
-        }
-            echo '</div></form> </div>';
-    //   </table>
-    }
+           
+*/
+?>   
+<div class="container">
+    <form id="form"  action="editar.php" method="post"> 
+        <div class="panel panel-default">
+            <div class="panel-heading">PLAYAS</div>
+                <div class='list-group list-group-item-info'>
+                <!-- aki php -->
+                <?php 
+                
+                    if (isset($_POST['id'])) 
+                        $codigo = $_POST['idPlaya'];
+                        selectPlayas($codigo);
+                        echo "<h1>.$codigo.</h1>";
+                ?>
+    
+                </div>
+
+        </div>
+    </form> 
+</div>
+<!-- FOOTER -->
+    <br><div class="spacio"></div>
+    <div class="well well-sm footer-info text-primary">
+        <p>DWE 2017-UT8 JM_Banchero</p>
+    </div>
+</body>
+</html>
 
 
-        }
-/*   <th>DESCRIPCIÓN </th><th>DIRECCION</th><th>TAMAÑO</th><th>LONGITUD</th><th>LATITUD
+
+<!-- /*   <th>DESCRIPCIÓN </th><th>DIRECCION</th><th>TAMAÑO</th><th>LONGITUD</th><th>LATITUD
 </th><th>IMAGEN</th>*/           
 /*idPlaya
 idMun
@@ -203,14 +270,4 @@ imagen */
         // echo '<img src="data:image/jpeg;base64,'.base64_encode($imagen).'" style="width="50px; height="50px;"/>';
                
         
-        // echo "<td><button class='btn btn-info' type='submit' value='idEdit' name='edit'>Select</button></td></tr>";
-       
-?>   
-</div>
-
-    <br><div class="spacio"></div>
-    <div class="well well-sm footer-info text-primary">
-        <p>DWE 2017-UT8 JM_Banchero</p>
-    </div>
-</body>
-</html>
+        // echo "<td><button class='btn btn-info' type='submit' value='idEdit' name='edit'>Select</button></td></tr>"; -->
