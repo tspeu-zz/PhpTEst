@@ -47,19 +47,14 @@
             $opciones =array(PDO::MYSQL_ATTR_INIT_COMMAND=>"SET NAMES utf8");
             $dwes = new PDO("mysql:host=localhost;dbname=playasdb", "dwes", "abc123.", $opciones);
             $dwes->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }catch (PDOException $e) {
-            $error = $e->getCode();
-            $mensaje = $e->getMessage();
-        }     
+         
     
 // && $_SERVER["REQUEST_METHOD"] == "POST"
-    if (!isset($error) && $_SERVER["REQUEST_METHOD"] == "POST") {
-        if (empty($_POST["nombre"])) {
-            $nameErr = "Name is required";
-        } else {
-
+            if (!isset($error) && $_SERVER["REQUEST_METHOD"] == "POST") {
+                if (!empty($_POST["nombre"])) {
+                    $nameErr = "Name is required";
+                } else {
                 // $valido=true;
-
                 $idPlaya= test_input($_POST["idplaya"]);
                 $idMun = inputParseInteger($_POST["idmunicipio"]);
                 $nombrePlaya = test_input($_POST["nombre"]);
@@ -67,38 +62,47 @@
                 $direccionPlaya = test_input($_POST["direccion"]);
                 $descripcionPlaya = test_input($_POST["descripcion"]);
                 $latitudPlaya = test_input($_POST["latitud"]);
-                $longitudPlaya = test_input($_POST["longitud"]);
-                $imagenPlaya = test_input($_POST["imagen"]);
+                $longitudPlaya = inputParseFloat($_POST["longitud"]);
+                $imagenPlaya = inputParseFloat($_POST["imagen"]);
+     
+                
+                $sql= "INSERT INTO `playas`
+                                (`idMun`, `nombre`, `descripcion`,
+                                `direccion`, `playaSize`, 
+                                `longitud`, `latitud`) 
+                        VALUES ( $idMun, '$nombrePlaya', '$descripcionPlaya',
+                                '$direccionPlaya', '$tamañoPlaya',
+                                $latitudPlaya, $longitudPlaya)";
+//   sql = "INSERT INTO `saved_holidays` (`subscriberID`, `link`, `pubDate`, `title`, `description`) 
+//   VALUES ('John', '$currentFav->link', '$currentFav->pubDate', '$currentFav->title', '$currentFav->description')";
+  
 
-                // $dwes->beginTransaction();        
-                
-                $sql= "INSERT INTO playas 
-                            (idMun, nombre, descripcion,
-                            direccion, playaSize, 
-                            longitud, latitud) 
-                        VALUES ( $idMun, $nombrePlaya,$tamañoPlaya,$direccionPlaya,
-                                $descripcionPlaya,$latitudPlaya,$longitudPlaya)";
-                
                 $dwes->exec($sql);
 
-                if($valido==true){
-                    $dwes->commit();
+                // if($valido==true){
+                    // $dwes->commit();
                     echo "<h2><span class='label label-success'>Los datos han ido insertado con éxito!</span></h2>";
                     echo "<h2>DATOS PLAYA:</h2>";
                     echo "id:$idPlaya | idMUN:$idMun|NomPlaya:$nombrePlaya|tamañoPla: $tamañoPlaya<br>";
                     echo "direc: $direccionPlaya|Desc:$descripcionPlaya<br>";
                     echo "Lat: $latitudPlaya||Long:$longitudPlaya||Imagen: $imagenPlaya";
             
-                }else{
-                    $dwes->rollback();
-                    echo "<h2><span class='label label-danger'>Los datos no han sido actualizados!</span></h2>";
+                // }else{
+                //     $dwes->rollback();
+                //     echo "<h2><span class='label label-danger'>Los datos no han sido actualizados!</span></h2>";
+                // }
+                    
+                    // $dwes = null;
+                  
                 }
-                
-                $dwes = null;
-                unset($dwes);
-            }
-
-        }  
+            } 
+    }catch (PDOException $e) {
+        echo "<h2><span class='label label-danger'>Los datos no han sido actualizados!</span></h2>";
+        
+        echo    $error = $e->getCode();
+        echo    $mensaje = $e->getMessage();
+    }     
+    unset($dwes);
         // else{
         // echo "<h2><span class='label label-warning'>Accion cancelada!</span></h2>";
         // }

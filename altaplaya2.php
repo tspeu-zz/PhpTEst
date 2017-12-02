@@ -99,7 +99,7 @@
 // , PDO::PARAM_STR, PDO::PARAM_STR
                 if(!$stmt){
                     // $dwes->rollback();
-                    echo "<h2><span class='label label-danger'>Los datos no han sido actualizados!</span></h2>";
+                    echo "<h2><span class='label label-danger'>ERR: Los datos no han sido insertadps!</span></h2>";
                     $this->mensaje="error al crear registro";
                 }else{
                      // $dwes->commit();
@@ -119,8 +119,8 @@
                 //     $this->mensaje="resgistro creado ok";
                 // }
                 // $stmt->close();
-                $dwes->close();
-                // unset($dwes);
+                // $dwes->close();
+                unset($dwes);
             }
 
         }  

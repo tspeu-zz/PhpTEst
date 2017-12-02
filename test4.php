@@ -27,7 +27,7 @@
                         <a href='#'> test4 PROYECTO_8 JM_B  <span class='sr-only'>(current)</span></a>
                     </li>
                     <li><a href='test4.php'>LISTADO PLAYAS DESDE dB MYSQL</a> 
-                    <li><a href='altaplaya.php'>ALTA PLAYA DESDE dB MYSQL</a></li>
+                    <li><a href='altaplaya2.php'>ALTA PLAYA DESDE dB MYSQL</a></li>
                     </li>
                 </ul>
             </div>
