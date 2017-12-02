@@ -155,13 +155,41 @@ $float = (float)$num; */
 
 
 ?>
-    <div class="panel panel-default">
-        <h2>Alta DE PLAYA </h2>
-        <p><span class="error">* required field.</span></p>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
-            <span> ID Playa:</span> <input type="text" name="idplaya" value="<?php echo $idPlaya;?>"> 
-            <span>MUNICIPIO: </span>
-            <select name="idmunicipio" id="idmunicipio">
+<!-- <div class="input-group input-group-lg">
+  <span class="input-group-addon" id="sizing-addon1">@</span>
+  <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon1">
+</div>
+
+<div class="input-group">
+  <span class="input-group-addon" id="sizing-addon2">@</span>
+  <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon2">
+</div>
+
+<div class="input-group input-group-sm">
+  <span class="input-group-addon" id="sizing-addon3">@</span>
+  <input type="text" class="form-control" placeholder="Username" aria-describedby="sizing-addon3">
+</div> -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="panel-title">Dar de alta una playa en Db</h2>
+        </div>
+
+        <span class="label label-danger">* CAMPOS REQUERIDOS.</span>
+       <div class="panel-body">
+        <form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
+            <!-- <span> ID Playa:</span>  -->
+            <input type="hidden" name="idplaya" value="<?php echo $idPlaya;?>"> 
+        <div class="row">
+            <div class="col-md-3">
+                <div class="input-group input-group-lg">
+                    <span  class="input-group-addon">MUNICIPIO: </span>
+                </div>
+            </div>
+            <div class="col-md-6">    
+                <select name="idmunicipio" id="idmunicipio" style=" width: 80% !important;
+                        height: 80% !important;padding: 1% !important;
+                        font-size: 14px; text-align: center !important;
+                        background-color: #EEEEEE;" >
                     <?php 
                           if (isset($_POST['idmunicipio'])) $idSelect = $_POST['idmunicipio'];
                           try {
@@ -188,25 +216,108 @@ $float = (float)$num; */
                             }     
                         }   
                     ?>  
-            </select><br>
-            <span> Nombre Playa:*</span> <input type="text" name="nombre" value="<?php echo $nombrePlaya;?>">
-            <span class="err">* <?php echo $nameErr;?></span>
-            <br><br>
-            <span>Tamaño:</span> <input type="text" name="tamaño" value="<?php echo $tamañoPlaya;?>">
-           
-            <br><br>
-            <span>Direccion:*</span> <input type="text" name="direccion" value="<?php echo $direccionPlaya;?>">
+                </select><br>
+            </div>
+        </div> 
+        <br>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="input-group input-group-lg">                
+                    <span class="input-group-addon"  id="basic-addon1"> Nombre Playa:*</span> 
+                </div>
+            </div>
+            <div class="col-md-6">   
+                <div class="input-group input-group-lg">             
+                <input type="text" name="nombre" value="<?php echo $nombrePlaya;?>">
+                <span class="label label-danger input-group-addon">* <?php echo $nameErr;?></span>
+                </div>
+            </div>
+        </div>
+            
+
+        <div class="row">
+            <div class="col-md-3">                
+                <div class="input-group input-group-lg"> 
+                    <span class="input-group-addon"  id="basic-addon1">Tamaño:</span> 
+                </div>
+            </div>
+            <div class="col-md-6">   
+                <div class="input-group input-group-lg">              
+                    <input type="text" name="tamaño" value="<?php echo $tamañoPlaya;?>">
+                </div>
+            </div>
+        </div>
+
+            
+        <div class="row">
+            <div class="col-md-3">                
+                <div class="input-group input-group-lg">     
+                    <span class="input-group-addon"  id="basic-addon1">Direccion:*</span> 
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                <div class="input-group input-group-lg">       
+                    <input type="text" name="direccion" value="<?php echo $direccionPlaya;?>">
+                </div>
+            </div>
+        </div>  
+        
+
+        <div class="row">
+            <div class="col-md-3">                
+                <div class="input-group input-group-lg">        
+                    <span class="input-group-addon"  id="basic-addon1">Descripcion:</span> 
+                </div>
+            </div>
+            <div class="col-md-6">
+                <textarea name="descripcion" rows="5" cols="40"><?php echo $descripcionPlaya;?></textarea>
+            </div>
+        </div>  
           
-            <br><br>
-            <span>Descripcion:</span> <textarea name="descripcion" rows="5" cols="40"><?php echo $descripcionPlaya;?></textarea>
-            <br><br>
-            <span> Latitud:*</span> <input type="text" name="latitud" value="<?php echo $latitudPlaya;?>"> 
-            <span> Longitud:*</span> <input type="text" name="longitud" value="<?php echo $longitudPlaya;?>">
-            <br><br>
-            <span> IMAGEN?¿?¿:</span> <input type="text" name="imagen" value="<?php echo $imagenPlaya;?>">
-            <input type="submit" name="submit" value="Submit">  
+        <div class="row">
+            <div class="col-md-3">                
+                <div class="input-group input-group-lg"> 
+                    <span class="input-group-addon"  id="basic-addon1"> Latitud:*</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group input-group-lg">              
+                <input type="text" name="latitud" value="<?php echo $latitudPlaya;?>"> 
+                </div>
+            </div>
+        </div>  
+
+        <div class="row">
+            <div class="col-md-3">                
+                <div class="input-group input-group-lg"> 
+                    <span class="input-group-addon"  id="basic-addon1"> Longitud:*</span> 
+                </div>
+            </div>
+            <div class="col-md-6"> 
+                <div class="input-group input-group-lg">     
+                    <input type="text" name="longitud" value="<?php echo $longitudPlaya;?>">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3"> 
+                <span class="input-group-addon"  id="basic-addon1"> IMAGEN?¿?¿:</span> 
+            </div>
+            <div class="col-md-6"> 
+                <input type="text" name="imagen" value="<?php echo $imagenPlaya;?>">
+            </div>
+        </div>
+<br>
+        <div class="row">
+            <div class="col-md-6">                
+                <button type="submit" name="submit" value="Submit" class="btn btn-lg btn-success">enviar</button> 
+            </div>
+        </div> 
         </form>
     </div>
+  </div>
+</div>
 
 
 
