@@ -10,8 +10,8 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/dwes.css">
     <!-- Latest compiled and minified JavaScript -->
-    <!-- <script src="js/jquery.min.js"></script> -->
-    <!-- <script src="js/bootstrap.min.js"></script> -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     
 
     <link type="image/x-icon" href="img/ghost.png" rel="shortcut icon" />

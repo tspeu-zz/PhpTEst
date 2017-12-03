@@ -32,8 +32,8 @@
 include_once('./crud/playa.php');
 // include_once("./crud/conexion.php");
 // $detallePlaya = $_POST['idPlaya'];
-		// if (isset($_POST['idPlaya'])) 
-			$detallePlaya = $_POST['idPlaya'];
+		// if (isset($_GET['idPlaya'])) 
+			$detallePlaya = $_GET['idPlaya'];
 			try {
 				$opciones =array(PDO::MYSQL_ATTR_INIT_COMMAND=>"SET NAMES utf8");
 				$dwes = new PDO("mysql:host=localhost;dbname=playasdb", "dwes", "abc123.",$opciones);
@@ -115,7 +115,7 @@ where idPlaya = 1178 */
 						 <p><h4>Direccion:<span class="label label-default">' .$direccion. '</span></h4></p> 
 						 <p>Tamaño:<span class="label label-default">' .$playaSize.' </span></p> 
 							<textarea name="descripcion" rows="10" cols="60" >'.$descripcion.'</textarea>
-							<p><a href="test4.php" class="btn btn-primary" role="button" type="submit">Atras</a> 
+							<p><a href="test5.php" class="btn btn-primary" role="button" type="submit">Atras</a> 
 							</p>
 						</div>
 				  </div>
