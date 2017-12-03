@@ -107,9 +107,9 @@ SQL;
     if($resultado) {
         $linea = $resultado->fetch();
             echo '<form id="form" name="idPlaya" action="editar.php" method="post"> 
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
             <div class="panel-heading">PLAYAS</div>';   
-            echo  "<table class='list-group'>";            
+            echo  "<div class='list-group'>";            
             // $listaPlayas =  DB::obtienePlayasMunicipio();
             $index =0;
             $listaPlayas = array();
@@ -150,20 +150,21 @@ SQL;
             //         $longitud=>$linea['longitud'],
             //         $latitud=>$linea['latitud'],
             //         $imagen=>$linea['imagen']);
-                                    // $array[$key];  $cars[0] - echo $myarray[0]['email'];name='idPlaya'    
+                                    // $array[$key];  $cars[0] - echo $myarray[0]['email'];name='idPlaya' 
+// <td>       <button class='btn btn-info' type='submit'>Detalles</button></td>       //   
+// <td>  <span class='badge'>$index</span>  </td>                                     
             echo 
-            "<tr class='list-group-item'>
-              <td>  <span class='badge'>$index</span>  </td>    
-              <td>      <input type='text'  name='idPlaya' value='$playa'/></td>
-              <td>       <span > $playanombre</span>    </td>
-              <td>       <button class='btn btn-info' type='submit'>Detalles</button></td>
-            </tr>";
-          
+            "<a href=editar.php?idPlaya=".$playa." class='list-group-item'> 
+                  
+                    <input type='hidden'  name='idPlaya' value='$playa'/>
+                    <span > $playanombre</span>    
+                
+            </a>";
             $linea = $resultado->fetch();
             $index++;
         
         }
-            echo '</table> </div></form>';
+            echo '</div> </div></form>';
  
     }
 
