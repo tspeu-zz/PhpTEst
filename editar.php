@@ -32,7 +32,8 @@
 include_once('./crud/playa.php');
 // include_once("./crud/conexion.php");
 // $detallePlaya = $_POST['idPlaya'];
-		if (isset($_POST['idPlaya'])) $detallePlaya = $_POST['idPlaya'];
+		if (isset($_POST['idPlaya'])) 
+			$detallePlaya = $_POST['idPlaya'];
 			try {
 				$opciones =array(PDO::MYSQL_ATTR_INIT_COMMAND=>"SET NAMES utf8");
 				$dwes = new PDO("mysql:host=localhost;dbname=playasdb", "dwes", "abc123.",$opciones);
@@ -89,12 +90,9 @@ where idPlaya = 1178 */
                 $nombre=$row['nombre'];
                 $direccion=$row['direccion'];
                 $descripcion=$row['descripcion'];
-								$playaSize=$row['playaSize'];
-								
-				$longitud=$row['longitud'];
-			
-				$latitud=$row['latitud'];
-				
+				$playaSize=$row['playaSize'];								
+				$longitud=$row['longitud'];			
+				$latitud=$row['latitud'];				
 				$imagen=$row['imagen'];
 				$nombreMun=$row['nombreMun'];
 

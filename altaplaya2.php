@@ -70,7 +70,9 @@
                 $descripcionPlaya = test_input($_POST["descripcion"]);
                 $latitudPlaya = inputParseFloat($_POST["latitud"]);
                 $longitudPlaya = inputParseFloat($_POST["longitud"]);
-                $imagenPlaya = test_input($_POST["imagen"]);
+                // $imagenPlaya = test_input($_POST["imagen"]);
+                $imagenPlaya = uploadImage($_POST["imagen"]);
+                
 
                 // $dwes->beginTransaction();        
 
@@ -78,10 +80,10 @@
     $sql= "INSERT INTO playas 
                 (idMun, nombre, descripcion,
                 direccion, playaSize, 
-                longitud, latitud) 
+                longitud, latitud,imagen) 
             VALUES (:idMun, :nombrePlaya,:descripcionPlaya,
                     :direccionPlaya,:playaSize,
-                    :longitudPlaya, :latitudPlaya)";
+                    :longitudPlaya, :latitudPlaya,:imagen)";
               
 
         $stmt = $dwes->prepare($sql);
@@ -93,8 +95,8 @@
             $stmt->bindParam(':playaSize', $tamañoPlaya, PDO::PARAM_STR);
             $stmt->bindParam(':longitudPlaya', $longitudPlaya, PDO::PARAM_STR);
             $stmt->bindParam(':latitudPlaya', $latitudPlaya, PDO::PARAM_STR);
+            $stmt->bindParam(':imagen', $imagenPlaya, PDO::PARAM_LOB);
 
-     
 // , PDO::PARAM_INT, PDO::PARAM_STR , PDO::PARAM_STR , PDO::PARAM_STR, PDO::PARAM_STR
 // , PDO::PARAM_STR, PDO::PARAM_STR
                 if(!$stmt){
@@ -152,6 +154,142 @@ $float = (float)$num; */
         $data=(float)$data;
         return $data;
     }
+    function uploadImage($imagenPlaya){
+        $imagenPlaya = $_FILES['file']['name'];
+        $extension = strtolower(substr($imagenPlaya, strpos($imagenPlaya, '.') + 1));
+        $tmp_name = $_FILES['file']['tmp_name'];
+        $type = $_FILES['file']['type'];
+        $size = $_FILES['file']['size'];
+        $max_size = 10000000;
+        $expensions= array("jpeg","jpg","png");
+
+        // if(isset($name)){
+            
+            if(!empty($imagenPlaya)){
+                  
+                if(($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png')&& $type == 'image/jpeg' && $size <= $max_size){
+                    
+                // Image submitted by form. Open it for reading (mode "r")
+                    $fp = fopen($_FILES['file']['tmp_name'], "r");
+                    
+                    // If successful, read from the file pointer using the size of the file (in bytes) as the length.
+                    if ($fp) {
+                        $content = fread($fp, $_FILES['file']['size']);
+                        fclose($fp);
+                    
+                        // Add slashes to the content so that it will escape special characters.
+                        // As pointed out, mysql_real_escape_string can be used here as well. Your choice.
+                        $content = addslashes($content);
+                        $content= mysqli_real_escape_string($cxn, $content);
+                        $imagenPlaya= mysqli_real_escape_string($cxn, $imagenPlaya);
+                        // Insert into the table "table" for column "image" with our binary string of data ("content")
+                        // mysqli_query($cxn,"INSERT INTO uploaded (file_id, name, type, size, image, email) Values('','$name','$type', '$size','$content','goro@yahoo.com')") or 
+                        // die("Couldn't execute query in your database!".mysqli_error($cxn));
+                        
+                        // echo 'Data-File was inserted into the database!|';
+                        // echo '<a href="showImages.php?id=1">view</a>';
+                    }
+                    
+                    else{
+                    echo 'There was an error!';
+                    }
+                }
+                else{
+                echo 'File must be jpg/jpeg and must be 73 kilobyte or less! ';
+                }
+            
+            }
+            
+              else {
+              echo 'Please select a file!';
+            
+            }
+            // }
+        return $name;    
+    }
+    function upload() {
+    
+        $maxsize = 10000000; //set to approx 10 MB
+        $expensions= array("jpeg","jpg","png");
+        //check associated error code
+        // if($_FILES['userfile']['error']==UPLOAD_ERR_OK) {
+    // Check file size
+        if ($_FILES["fileToUpload"]["size"] > 500000) {
+            echo "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+            //check whether file is uploaded with HTTP POST
+            if(is_uploaded_file($_FILES['userfile']['tmp_name'])) {    
+    
+                //checks size of uploaded image on server side
+                if( $_FILES['userfile']['size'] < $maxsize) {  
+      
+                   //checks whether uploaded file is of image type
+                  //if(strpos(mime_content_type($_FILES['userfile']['tmp_name']),"image")===0) {
+                     $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                    if(strpos(finfo_file($finfo, $_FILES['userfile']['tmp_name']),"image")===0) {    
+    
+                        // prepare the image for insertion
+                        $imgData =addslashes (file_get_contents($_FILES['userfile']['tmp_name']));
+    
+                        // put the image in the db...
+                        // database connection
+                        // mysql_connect($host, $user, $pass) OR DIE (mysql_error());
+    
+                        // select the db
+                        // mysql_select_db ($db) OR DIE ("Unable to select db".mysql_error());
+    
+                        // our sql query
+                        $sql = "INSERT INTO test_image
+                        (image, name)
+                        VALUES
+                        ('{$imgData}', '{$_FILES['userfile']['name']}');";
+    
+                        // insert the image
+                        mysql_query($sql) or die("Error in Query: " . mysql_error());
+                        $msg='<p>Image successfully saved in database with id ='. mysql_insert_id().' </p>';
+                    }
+                    else
+                        $msg="<p>Uploaded file is not an image.</p>";
+                }
+                 else {
+                    // if the file is not less than the maximum allowed, print an error
+                    $msg='<div>File exceeds the Maximum File limit</div>
+                    <div>Maximum File limit is '.$maxsize.' bytes</div>
+                    <div>File '.$_FILES['userfile']['name'].' is '.$_FILES['userfile']['size'].
+                    ' bytes</div><hr />';
+                    }
+            }
+            else
+                $msg="File not uploaded successfully.";
+    
+        // }
+        // else {
+            $msg= file_upload_error_message($_FILES['userfile']['error']);
+        // }
+        return $msg;
+    }
+    // Function to return error message based on error code
+    function file_upload_error_message($error_code) {
+        switch ($error_code) {
+            case UPLOAD_ERR_INI_SIZE:
+                return 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+            case UPLOAD_ERR_FORM_SIZE:
+                return 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+            case UPLOAD_ERR_PARTIAL:
+                return 'The uploaded file was only partially uploaded';
+            case UPLOAD_ERR_NO_FILE:
+                return 'No file was uploaded';
+            case UPLOAD_ERR_NO_TMP_DIR:
+                return 'Missing a temporary folder';
+            case UPLOAD_ERR_CANT_WRITE:
+                return 'Failed to write file to disk';
+            case UPLOAD_ERR_EXTENSION:
+                return 'File upload stopped by extension';
+            default:
+                return 'Unknown upload error';
+        }
+}
 
 
 ?>
@@ -305,7 +443,8 @@ $float = (float)$num; */
                 <span class="input-group-addon"  id="basic-addon1"> IMAGEN?¿?¿:</span> 
             </div>
             <div class="col-md-6"> 
-                <input type="text" name="imagen" value="<?php echo $imagenPlaya;?>">
+                <input type="file" name="imagen" value="<?php echo $imagenPlaya;?>">
+                <!-- <input type="file" name="image"/> -->
             </div>
         </div>
 <br>

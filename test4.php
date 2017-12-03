@@ -33,7 +33,7 @@
             </div>
     </nav>
 <div class="container container-fluid">
-         <h1 id="encabezado">Listado de playas</h1>
+         <h1 id="encabezado" class="panel panel-primary">Listado de playas</h1>
     <div> 
         <form id="form" name="formulario" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
 
@@ -106,33 +106,94 @@ SQL;
 
     if($resultado) {
         $linea = $resultado->fetch();
-            echo '<form id="form"  action="editar.php" method="post"> 
+            echo '<form id="form" name="idPlaya" action="editar.php" method="post"> 
             <div class="panel panel-default">
-            <div class="panel-heading">PLAYAS</div>';
-            // echo '<table class="table">';
-            // echo '<br><tr><th>Elegir un nombre para obtener la descripcion </th>
-            // </tr></br>';
-            echo  "<div class='list-group list-group-item-info'>";   
+            <div class="panel-heading">PLAYAS</div>';   
+            echo  "<table class='list-group'>";            
             // $listaPlayas =  DB::obtienePlayasMunicipio();
             $index =0;
             $listaPlayas = array();
         while ($linea != null) {
             
-            $listaPlayas[$index]=new playa($linea);
+            // $listaPlayas[$index]=new playa($linea);
             // $arrayname[indexname] = $value;
-            // $listaPlayas
-            // echo "<option value=".$row_rs_query['id'].">".$row_rs_query['descripcion']."</option>";
+                                // idPlaya 
+                                // idMun 
+                                // nombre 
+                                // direccion 
+                                // descripcion 
+                                // playaSize 
+                                // longitud 
+                                // latitud
+                                // imagen      
             $listaPlayas[$index] =array( 
-                    $idPlaya=$linea['idPlaya'],
-                    $idMun=$linea['idMun'],
-                    $nombre=$linea['nombre'],
-                    $direccion=$linea['direccion'],
-                    $descripcion=$linea['descripcion'],
-                    $playaSize=$linea['playaSize'],
-                    $longitud=$linea['longitud'],
-                    $latitud=$linea['latitud'],
-                    $imagen=$linea['imagen']);
+                    'idPlaya'=>inputParseInteger($linea['idPlaya']),
+                    // ,
+                    // [idMun]=>$linea['idMun'],
+                    'nombre'=>$linea['nombre'] 
+                    // [direccion]=>$linea['direccion'],
+                    // [descripcion]=>$linea['descripcion'],
+                    // [playaSize]=>$linea['playaSize'],
+                    // [longitud]=>$linea['longitud'],
+                    // [latitud]=>$linea['latitud'],
+                    // [imagen]=>$linea['imagen']
+                );
+                $playa = $listaPlayas[$index]['idPlaya'];
+                $playanombre=$listaPlayas[$index]['nombre'];
+            // $listaPlayas[$index] =array( 
+            //         $idPlaya=>$linea['idPlaya'],
+            //         $idMun=>$linea['idMun'],
+            //         $nombre=>$linea['nombre'],
+            //         $direccion=>$linea['direccion'],
+            //         $descripcion=>$linea['descripcion'],
+            //         $playaSize=>$linea['playaSize'],
+            //         $longitud=>$linea['longitud'],
+            //         $latitud=>$linea['latitud'],
+            //         $imagen=>$linea['imagen']);
+                                    // $array[$key];  $cars[0] - echo $myarray[0]['email'];name='idPlaya'    
+            echo 
+            "<tr class='list-group-item'>
+              <td>  <span class='badge'>$index</span>  </td>    
+              <td>      <input type='text'  name='idPlaya' value='$playa'/></td>
+              <td>       <span > $playanombre</span>    </td>
+              <td>       <button class='btn btn-info' type='submit'>Detalles</button></td>
+            </tr>";
+          
+            $linea = $resultado->fetch();
+            $index++;
+        
+        }
+            echo '</table> </div></form>';
+ 
+    }
 
+
+        }
+
+    function inputParseInteger($data){
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        $data=(int)$data;
+        return $data;
+    }
+
+    function getIndex($index){
+        $id;
+
+        return $id;
+    }
+ 
+?>   
+</div>
+
+    <br><div class="spacio"></div>
+    <div class="well well-sm footer-info text-primary">
+        <p>DWE 2017-UT8 JM_Banchero</p>
+    </div>
+</body>
+</html>
+<!-- 
                 // $idPlaya=$linea['idPlaya'];
                 // $idMun=$linea['idMun'];
                 // $nombre=$linea['nombre'];
@@ -150,39 +211,25 @@ SQL;
                 // $nombre->;
             // foreach($listaPlayas as $pl){
             //     $pl->muestraIdPlaya();
-            // }
-
-            echo 
-            "<input type='hidden' name='idPlaya' value='$idPlaya'/>";
-            // "<input type='hidden' name='idEdit' value='$p->getIdPlaya()'/>";
+            // } -->
+<!--   // "<input type='hidden' name='idEdit' value='$p->getIdPlaya()'/>";
             // "<input type='hidden' name='idEdit' value='.$listaPlayas[$index]->getIdPlaya().'/>";
 
-            echo
+            // echo
             // "<button type='submit' aria-label='Right Align' class='list-group-item' 
             // value='nombre' name='nombre'>$nombre"$listaPlayas[$index]->getNombrePlaya()  $nombre;
-                "<button type='submit' aria-label='Right Align' class='list-group-item'> $nombre
-                <span class='badge'>$index</span></button>";
+                // "";
                 
-            echo    
-            "<button class='btn btn-info' type='submit'>Seleccionar</button> 
-            <span class='badge'>$idPlaya</span>";  
+            // echo    
+            // "<button class='btn btn-info' type='submit'>Seleccionar</button> 
+            // <span class='badge'>$idPlaya</span>";  
             // "</button>
             // <button class='btn btn-info' type='submit' value='idEdit' 
             // name='idEdit'>Select</button>";  
 
            
-            // }
-            $linea = $resultado->fetch();
-            $index++;
-        
-        }
-            echo '</div></form> </div>';
-    //   </table>
-    }
-
-
-        }
-/*   <th>DESCRIPCIÓN </th><th>DIRECCION</th><th>TAMAÑO</th><th>LONGITUD</th><th>LATITUD
+            // } -->
+<!-- /*   <th>DESCRIPCIÓN </th><th>DIRECCION</th><th>TAMAÑO</th><th>LONGITUD</th><th>LATITUD
 </th><th>IMAGEN</th>*/           
 /*idPlaya
 idMun
@@ -207,13 +254,4 @@ imagen */
                
         
         // echo "<td><button class='btn btn-info' type='submit' value='idEdit' name='edit'>Select</button></td></tr>";
-       
-?>   
-</div>
-
-    <br><div class="spacio"></div>
-    <div class="well well-sm footer-info text-primary">
-        <p>DWE 2017-UT8 JM_Banchero</p>
-    </div>
-</body>
-</html>
+       -->
